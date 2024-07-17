@@ -8,39 +8,94 @@
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container text-center">
 
-        <div id="title">
-            <h1>Enter some coordinates to get the weather forecast</h1>
+        <div class="row">
+            <h1 class="col">Enter some coordinates to get the weather forecast</h1>
         </div>
 
-        <div id="form">
-            <form action="/get-weather-forecast" method="POST">
-                <label for="latitude">Latitude: </label>
-                <input type="text" id="latitude" name="lat"> <br><br>
+        <form action="/get-weather-forecast" method="POST">
+            
+            <div class="row mt-3">
+                <div class="col-3 d-flex justify-content-center align-items-center">
+                    <label for="latitude" class="form-label">Latitude:</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control mt-2" id="latitude" placeholder="Enter a latitude" value="" required="" name="lat">
+                    <div class="invalid-feedback">
+                        Valid latitude name is required.
+                    </div>
+                </div>
+            </div>
+                
+            <div class="row">
+                <div class="col-3 d-flex justify-content-center align-items-center">
+                    <label for="longitude" class="form-label">Longitude:</label>
+                </div>    
+                <div class="col-9">
+                    <input type="text" class="form-control mt-2" id="longitude" placeholder="Enter a longitude" value="" required="" name="long">
+                    <div class="invalid-feedback">
+                        Valid longitude name is required.
+                    </div>
+                </div>
+            </div>
 
-                <label for="longitude">Longitude: </label>
-                <input type="text" id="longitude" name="long"> <br><br>
-
-                <input class="btn btn-primary d-inline-flex align-items-center" type="submit" value="Get forecast">
+            <div class="col-9 d-flex justify-content-end align-items-center mt-3">
+                <input class="btn btn-primary col-6" type="submit" value="Get forecast">
+            </div>
             </form>
         </div>
 
+
     </div>
 
-    <% if (locals.time) { %>
+    <div class="container mt-5">
+        <% if (locals.time) { %>
 
-        <div>
-            <%= current_weather %> <br>
-            <%= current_rain %> <br> <br>
-            <%= time %> <br>
-            <%= temp_min %> <br>
-            <%= temp_max %> <br>
-            <%= rain %> <br>
-        </div>
-    
-    <% } %>
-    
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="row" colspan="2">Today weather forecast =></th>
+                            <th scope="row" colspan="4">The current temperature is: <%= current_weather %> °C</th>
+                            <th scope="row" colspan="4">The current rain percentage is: <%= current_rain %> %</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="row">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="row" colspan="4">Following 7 days weather forecast</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">Min temperature (°C)</th>
+                            <th scope="col">Max temperature (°C)</th>
+                            <th scope="col">Raining starting at (24h format)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for( let index = 0; index < time.length; index++ ) { %>
+                            <tr>
+                                <th scope="row"><%= time[index] %></th>
+                                <td><%= temp_min[index] %></td>
+                                <td><%= temp_max[index] %></td>
+                                <td><%= rain[index] %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+
+            </div>
+
+        <% } %>
+        
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
